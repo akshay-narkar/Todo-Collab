@@ -1,4 +1,6 @@
+/* eslint-disable import/no-cycle */
 import { addToLocalStorage, addSelectedProject } from './localStorage';
+/* eslint-enable import/no-cycle */
 
 const projectInput = document.getElementById('new_project_input');
 const projectForm = document.getElementById('project_form');
@@ -30,23 +32,6 @@ defaultProject.addEventListener('click', (e) => {
 
 // Create a project
 const projectItem = (item) => ({ id: Date.now().toString(), item, tasks: [] });
-
-// Project form
-projectForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  if (projectInput.value === null || projectInput.value === '') return;
-
-  const project = projectItem(projectInput.value);
-  projectInput.value = null;
-
-  listOfProjects.push(project);
-
-  addToLocalStorage(listOfProjects);
-  addSelectedProject(selectedProjectId);
-
-  create();
-});
 
 // Create project item/task
 const taskItem = (item) => ({
@@ -198,6 +183,23 @@ const create = () => {
   createProject();
   createTasks();
 };
+
+// Project form
+projectForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  if (projectInput.value === null || projectInput.value === '') return;
+
+  const project = projectItem(projectInput.value);
+  projectInput.value = null;
+
+  listOfProjects.push(project);
+
+  addToLocalStorage(listOfProjects);
+  addSelectedProject(selectedProjectId);
+
+  create();
+});
 
 const getFromLocalStorage = () => {
   const reference = localStorage.getItem('listOfProjects');

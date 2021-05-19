@@ -1,4 +1,6 @@
+/* eslint-disable import/no-cycle */
 import create from './project';
+/* eslint-enable import/no-cycle */
 
 // Local storage
 
