@@ -1,3 +1,3 @@
-import create from './modules/project'
+import create from './modules/project';
 
 create();
