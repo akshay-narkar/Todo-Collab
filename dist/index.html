@@ -5,6 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
+    <!-- Fav icon -->
+    <link rel="icon" type="image/png" href="https://cdn2.iconfinder.com/data/icons/business-office-icons/256/To-do_List-512.png">
+
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -44,8 +47,10 @@
       <div id="tasks  p-3 bg-secondary">
         <input type="button" class="btn btn-outline-success my-2 my-sm-0" value="NEW TASK" id="new_task_button" />
 
-        <form action="#" class="form-group" id="task_form">
+        <form action="#" class="form-group w-50 mx-auto" id="task_form">
           <h2>Add new Task item</h2>
+          <label>Task Name</label>
+          <input type="text" placeholder="Task Name" id="task-name" class="form-control" required><br>
           <textarea class="form-control" placeholder="Task Description" id="new_task_input" required></textarea>
           <label id="due_date_label">Due Date</label><br />
           <input class="form-control" type="date" id="date" required /><br />

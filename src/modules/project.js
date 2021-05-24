@@ -14,9 +14,10 @@ const taskContainer = document.getElementById('tasks');
 const taskForm = document.getElementById('task_form');
 const addTaskBtn = document.getElementById('new_task_button');
 const cancelTaskBtn = document.getElementById('cancel_task_button');
-const taskInput = document.getElementById('new_task_input');
+const taskDescription = document.getElementById('new_task_input');
 const dueDate = document.getElementById('date');
 const priority = document.getElementById('priority_dropdown');
+const taskName = document.getElementById('task-name');
 
 let listOfProjects = [];
 
@@ -34,22 +35,21 @@ defaultProject.addEventListener('click', (e) => {
 const projectItem = (item) => ({ id: Date.now().toString(), item, tasks: [] });
 
 // Create project item/task
-const taskItem = (item) => ({
-  id: Date.now().toString(), item, date: dueDate.value, priority: priority.value, complete: false,
+const taskItem = (name, description) => ({
+  id: Date.now().toString(), name, description, date: dueDate.value, priority: priority.value, complete: false,
 });
 
 // Task form
 taskForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  e.target.style.display = 'none';
-  addTaskBtn.style.display = 'block';
+  // e.target.style.display = 'none';
+  // addTaskBtn.style.display = 'block';
 
-  const taskName = taskInput.value;
+  const task_name = taskName.value;
+  const task_description = taskDescription.value;
   if (taskName == null || taskName === '') return;
 
-  const task = taskItem(taskName);
-
-  taskInput.value = '';
+  const task = taskItem(task_name, task_description);
 
   const selectedProject = listOfProjects.find((project) => project.id === selectedProjectId);
   selectedProject.tasks.push(task);
@@ -86,9 +86,35 @@ const createTaskCount = (selectedProject) => {
     taskMessage = 'tasks';
   }
 
-  taskCounter.textContent = `${incompleteTasks} ${taskMessage} remaining`;
 };
-// Create tasks
+
+// const editTask = (name, description) => {
+//   name = taskName.value
+//   name = tasks.name;
+//   description = taskDescription.value 
+//   description = tasks.description;
+//   dueDate.value = tasks.date;
+//   priority.value = task.priority;
+
+//   taskForm.addEventListener('submit', () => {
+//     tasks.name = taskName.value;
+//     tasks.description = taskDescription.value;
+//     task.date = dueDate.value;
+//     task.priority = priority.value;
+//     lable.innerHTML = `
+//     <button class="delete_listitem text-white bg-danger btn"><i class="fas fa-trash-alt"></i></button>
+//     <button class="delete_listitem text-white bg-success btn" id="edit"><i class="fas fa-edit"></i></button><br/>
+//     <span class="font-weight-bold">Task Name:</span> ${task.name}<br/>
+//     <span class="font-weight-bold">Task Descrition:</span> ${task.description}<br/>
+//     <span class="font-weight-bold">Task Date:</span> ${task.date}<br/> 
+//     <span class="font-weight-bold">Task Priority:</span> ${task.priority}
+//     `;
+//     create();
+//   })
+  
+// }
+
+// Create tasks || render the task items
 const createTasks = () => {
   const selectedProject = listOfProjects.find((project) => project.id === selectedProjectId);
 
@@ -103,19 +129,32 @@ const createTasks = () => {
       taskCheckBox.id = task.id;
       taskCheckBox.checked = task.complete;
       const taskLabel = document.createElement('label');
-      taskLabel.className = 'my-3 w-50';
+      taskLabel.className = 'my-3 w-50 project-listItem';
       taskLabel.htmlFor = task.id;
 
-      taskLabel.innerHTML = `<span class="font-weight-bold">Task Descrition:</span> ${task.item}<br/>
+      taskLabel.innerHTML = `
+        <button class="delete_listitem text-white bg-danger btn"><i class="fas fa-trash-alt"></i></button>
+        <button class="delete_listitem text-white bg-success btn" id="edit"><i class="fas fa-edit"></i></button><br/>
+        <span class="font-weight-bold">Task Name:</span> ${task.name}<br/>
+        <span class="font-weight-bold">Task Descrition:</span> ${task.description}<br/>
         <span class="font-weight-bold">Task Date:</span> ${task.date}<br/> 
-        <span class="font-weight-bold">Task Priority:</span> ${task.priority}`;
-
+        <span class="font-weight-bold">Task Priority:</span> ${task.priority}
+        `;
+ 
       taskLabel.appendChild(taskCheckBox);
       taskDiv.appendChild(taskLabel);
       taskList.appendChild(taskDiv);
     });
   }
 };
+
+// Delete list items
+
+taskList.addEventListener('click', (e) => {
+  if (e.target.classList.contains('fa-trash-alt')) {
+    e.target.parentElement.parentElement.remove();
+  }
+})
 
 // Clear projects
 const clearProject = (element) => {
