@@ -4,7 +4,7 @@ Creating a To Do list in using Javascript to create and maintain list of tasks f
 
 ## Todolist screenshot
 
-<img src="/src/images/Screenshot.png" width="65%"/>
+<img src="/src/screenshot.png" width="65%"/>
 
 In this project we build a To Do list app with vanilla javascript & webpack where you can:
 
