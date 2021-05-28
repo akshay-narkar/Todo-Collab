@@ -14,6 +14,7 @@ const defaulttomhome = document.getElementById('tommorrowlist');
 const defaulttodayhome = document.getElementById('todaylist');
 export const readRadios1edit = document.querySelectorAll('.radiobtnedit');
 export const taskedit = document.getElementById('taskedit');
+export const descriptionedit = document.getElementById('descriptionedit');
 export const dateedit = document.getElementById('dateedit');
 const canceledittask = document.getElementById('canceledittask');
 const cancellist = document.getElementById('cancellist');
@@ -21,7 +22,7 @@ const editingform = document.getElementById('editingform');
 const cancelcreatetask = document.getElementById('cancelcreatetask');
 const formdisplay = document.getElementById('form-display');
 
-export function dom() {
+export const dom = () => {
   cancellist.addEventListener('click', () => {
     showlist.classList.add('d-none');
   });
@@ -67,11 +68,10 @@ export function dom() {
     }
   });
 
-  function deletelist(event) {
+  const deletelist = (event) => {
     let remove = event.target.previousSibling.id;
     remove = remove.slice(-1);
 
-    // const liststasks = JSON.parse(localStorage.liststore);
     const liststasks = localstorage1();
     liststasks.splice(remove, 1);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
@@ -82,9 +82,9 @@ export function dom() {
         content1.removeChild(content1.lastChild);
       }
     }
-  }
+  };
 
-  function deletetask(e) {
+  const deletetask = (e) => {
     const listtasks = localstorage1();
     const selecteditem = localStorage.getItem('selectedlist');
 
@@ -97,9 +97,9 @@ export function dom() {
       }
     }
     e.target.parentElement.parentElement.remove();
-  }
+  };
 
-  function edittask(e) {
+  const edittask = (e) => {
     if (editingform.classList.contains('d-none')) {
       const currenttaskname = e.target.parentElement.parentElement.id.slice(-1);
       localStorage.setItem('selectedtask', currenttaskname);
@@ -110,16 +110,18 @@ export function dom() {
           break;
         }
       }
-      taskedit.value = e.target.parentElement.previousSibling.previousSibling.previousSibling
+      taskedit.value = e.target.parentElement.previousSibling.previousSibling
+        .previousSibling.previousSibling.innerHTML;
+      descriptionedit.value = e.target.parentElement.previousSibling.previousSibling.previousSibling
         .innerHTML;
       dateedit.value = e.target.parentElement.previousSibling.previousSibling.innerHTML;
     } else {
       editingform.classList.add('d-none');
       localStorage.removeItem('selectedtask');
     }
-  }
+  };
 
-  function checkboxtask(e) {
+  const checkboxtask = (e) => {
     const listtasks = localstorage1();
     const currentcheckedtaskclass = e.target.parentElement.parentElement;
     const remove = currentcheckedtaskclass.id.slice(-1);
@@ -142,9 +144,9 @@ export function dom() {
         }
       }
     }
-  }
+  };
 
-  function showalltasks(listtasks, i, j, tablebody, name = 1) {
+  const showalltasks = (listtasks, i, j, tablebody, name = 1) => {
     const tablerow = document.createElement('tr');
     tablerow.setAttribute('id', `task${j}`);
     tablerow.setAttribute('class', 'text-center');
@@ -163,6 +165,9 @@ export function dom() {
     const td2 = document.createElement('td');
     tablerow.appendChild(td2);
     td2.innerHTML = varnew.task;
+    const td23 = document.createElement('td');
+    tablerow.appendChild(td23);
+    td23.innerHTML = varnew.description;
     const td3 = document.createElement('td');
     tablerow.appendChild(td3);
     td3.innerHTML = varnew.date;
@@ -191,42 +196,42 @@ export function dom() {
       }
     }
     tablebody.appendChild(tablerow);
-  }
+  };
 
-  function showtasklist(selecteditem) {
+  const showtasklist = (selecteditem) => {
     formBtn.classList.remove('d-none');
 
     const listtasks = localstorage1();
+    const table = document.createElement('table');
+    content1.appendChild(table);
+    table.setAttribute('class', 'table table-stripped text-dark container pt-5');
+    const tablehead = document.createElement('thead');
+    const tableheading = document.createElement('tr');
+    tablehead.setAttribute('class', 'text-center');
 
-    for (let i = 0; i < listtasks.length; i += 1) {
-      if (listtasks[i].list === selecteditem) {
-        const table = document.createElement('table');
-        content1.appendChild(table);
-        table.setAttribute('class', 'table table-stripped text-dark container pt-5');
-        const tablehead = document.createElement('thead');
-        const tableheading = document.createElement('tr');
-        tablehead.setAttribute('class', 'text-center');
-
-        tableheading.innerHTML = `  <th scope="column">Status</th>
+    tableheading.innerHTML = `  <th scope="column">Status</th>
                     <th>Task</th>
+                    <th>Description</th>
                     <th>Date</th>
                     <th>Priority</th> 
                     <th>Update</th>
                     <th>Remove</th>`;
 
-        tablehead.appendChild(tableheading);
-        table.appendChild(tablehead);
+    tablehead.appendChild(tableheading);
+    table.appendChild(tablehead);
 
-        const tablebody = document.createElement('tbody');
-        table.appendChild(tablebody);
+    const tablebody = document.createElement('tbody');
+    table.appendChild(tablebody);
+    for (let i = 0; i < listtasks.length; i += 1) {
+      if (listtasks[i].list === selecteditem) {
         for (let j = 0; j < listtasks[i].todos.length; j += 1) {
           showalltasks(listtasks, i, j, tablebody);
         }
       }
     }
-  }
+  };
 
-  function showlistname() {
+  const showlistname = () => {
     if (localStorage.getItem('selectedlist')) {
       while (content1.lastElementChild) {
         content1.removeChild(content1.lastChild);
@@ -237,15 +242,15 @@ export function dom() {
       listname.innerHTML = localStorage.selectedlist;
       showtasklist(localStorage.getItem('selectedlist'));
     }
-  }
+  };
 
-  function addtolist(e) {
+  const addtolist = (e) => {
     const currentList = e.target.textContent.trim();
     localStorage.setItem('selectedlist', currentList);
     showlistname();
-  }
+  };
 
-  function todaytomolist(name) {
+  const todaytomolist = (name) => {
     const listtasks = localstorage1();
     const table = document.createElement('table');
     content1.appendChild(table);
@@ -257,6 +262,7 @@ export function dom() {
     tablehead.setAttribute('class', 'text-center');
     tablehead.appendChild(tableheading);
     tableheading.innerHTML = `  <th scope="column">Task</th>
+    <th scope="column">Description</th>
                     <th>Date</th>
                     <th>Priority</th> 
             `;
@@ -278,9 +284,9 @@ export function dom() {
         }
       }
     }
-  }
+  };
 
-  function tomtodaydefaultlist(e) {
+  const tomtodaydefaultlist = (e) => {
     formBtn.classList.add('d-none');
 
     while (content1.lastElementChild) {
@@ -293,9 +299,9 @@ export function dom() {
     localStorage.removeItem('selectedlist');
     const name = e.target.textContent.trim();
     todaytomolist(name);
-  }
+  };
 
-  function displaylist() {
+  const displaylist = () => {
     if (localStorage.getItem('liststore')) {
       const lists = JSON.parse(localStorage.liststore);
 
@@ -323,7 +329,7 @@ export function dom() {
         table.appendChild(link);
       }
     }
-  }
+  };
 
   defaultlisthome.addEventListener('click', addtolist);
   defaulttodayhome.addEventListener('click', tomtodaydefaultlist);
@@ -332,4 +338,4 @@ export function dom() {
   showlistname();
 
   displaylist();
-}
+};

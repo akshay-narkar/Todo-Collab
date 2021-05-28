@@ -1,37 +1,38 @@
-const submitlist = document.querySelector('#submitlist');
-const submittask = document.querySelector('#submittask');
+const listform = document.querySelector('#list-display');
+const editform = document.querySelector('#edit-form-display');
 const listname = document.querySelector('#defaultlist');
-const formdisplay = document.getElementById('form-display');
+const formdisplay = document.querySelector('#form-display');
 const list = document.getElementById('list');
 const readRadios1 = document.querySelectorAll('.radiobtn');
 const task = document.querySelector('#task');
+const description = document.querySelector('#description');
 const date = document.querySelector('#date');
-const edittask = document.querySelector('#edittask');
 
-export function localstorage1() {
+export const localstorage1 = () => {
   let liststasks = [];
   if (localStorage.getItem('liststore')) {
     liststasks = JSON.parse(localStorage.liststore);
   }
   return liststasks;
-}
+};
 
-export function deletetasklogic(i, remove, listtasks) {
+export const deletetasklogic = (i, remove, listtasks) => {
   listtasks[i].todos.splice(remove, 1);
   localStorage.setItem('liststore', JSON.stringify(listtasks));
-}
+      window.location.reload();
+};
 
-export function checkboxfalse(listtasks, i, remove) {
+export const checkboxfalse = (listtasks, i, remove) => {
   listtasks[i].todos[remove].status = false;
   localStorage.setItem('liststore', JSON.stringify(listtasks));
-}
+};
 
-export function checkboxtrue(listtasks, i, remove) {
+export const checkboxtrue = (listtasks, i, remove) => {
   listtasks[i].todos[remove].status = true;
   localStorage.setItem('liststore', JSON.stringify(listtasks));
-}
+};
 
-export function logic(dom1) {
+export const logic = (dom1) => {
   class Createlist1 {
     constructor(list) {
       this.list = list;
@@ -39,9 +40,10 @@ export function logic(dom1) {
     }
   }
 
-  function Createtask1(date, task, readradiovalue1, status) {
+  function Createtask1(date, task, description, readradiovalue1, status) {
     this.date = date;
     this.task = task;
+    this.description = description;
     this.priority = readradiovalue1;
     this.status = status;
   }
@@ -82,6 +84,7 @@ export function logic(dom1) {
           const remove = localStorage.getItem('selectedtask');
           listtasks[i].todos[remove].task = dom1.taskedit.value;
           listtasks[i].todos[remove].date = dom1.dateedit.value;
+          listtasks[i].todos[remove].description = dom1.descriptionedit.value;
           listtasks[i].todos[remove].priority = readradiovalue2;
           localStorage.setItem('liststore', JSON.stringify(listtasks));
           break;
@@ -105,7 +108,8 @@ export function logic(dom1) {
         }
       }
 
-      const tasks = new Createtask1(date.value, task.value, readradiovalue1, false);
+      const tasks = new Createtask1(date.value, task.value, description.value,
+        readradiovalue1, false);
 
       for (let i = 0; i < listtasks.length; i += 1) {
         const selectedlist = localStorage.getItem('selectedlist');
@@ -122,9 +126,9 @@ export function logic(dom1) {
     }
   };
 
-  submitlist.addEventListener('click', createlist);
-
-  submittask.addEventListener('click', createtask);
-  edittask.addEventListener('click', edittaskform);
+  listform.addEventListener('submit', createlist);
+  formdisplay.addEventListener('submit', createtask);
+  editform.addEventListener('submit', edittaskform);
   formdisplay.reset();
-}
+  listform.reset();
+};
