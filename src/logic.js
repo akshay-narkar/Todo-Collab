@@ -19,7 +19,7 @@ export const localstorage1 = () => {
 export const deletetasklogic = (i, remove, listtasks) => {
   listtasks[i].todos.splice(remove, 1);
   localStorage.setItem('liststore', JSON.stringify(listtasks));
-      window.location.reload();
+  window.location.reload();
 };
 
 export const checkboxfalse = (listtasks, i, remove) => {
