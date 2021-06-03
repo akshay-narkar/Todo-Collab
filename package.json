@@ -25,9 +25,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/akshay-narkar/todolist/issues"
+    "url": "https://github.com/akshay-narkar/todocollab/issues"
   },
-  "homepage": "https://github.com/akshay-narkar/todolist#readme",
+  "homepage": "https://github.com/akshay-narkar/todocollab#readme",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "babel-eslint": "^10.1.0",
