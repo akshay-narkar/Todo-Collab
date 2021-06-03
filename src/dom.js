@@ -93,6 +93,8 @@ export const dom = () => {
         let remove = e.target.parentElement.parentElement.id;
         remove = remove.slice(-1);
         deletetasklogic(i, remove, listtasks);
+        localStorage.setItem('liststore', JSON.stringify(listtasks));
+        window.location.reload();
         break;
       }
     }
@@ -132,6 +134,8 @@ export const dom = () => {
       for (let i = 0; i < listtasks.length; i += 1) {
         if (listtasks[i].list === selecteditem) {
           checkboxtrue(listtasks, i, remove);
+            localStorage.setItem('liststore', JSON.stringify(listtasks));
+
           break;
         }
       }
@@ -140,6 +144,8 @@ export const dom = () => {
       for (let i = 0; i < listtasks.length; i += 1) {
         if (listtasks[i].list === selecteditem) {
           checkboxfalse(listtasks, i, remove);
+            localStorage.setItem('liststore', JSON.stringify(listtasks));
+
           break;
         }
       }
