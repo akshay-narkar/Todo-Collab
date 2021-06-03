@@ -1,6 +1,6 @@
 import './stylesheet.scss';
-import { dom } from './dom';
+import * as dom1 from './dom';
 import { logic } from './logic';
 
-dom();
-logic();
+dom1.dom();
+logic(dom1);
