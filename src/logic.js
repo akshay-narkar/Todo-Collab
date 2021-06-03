@@ -27,18 +27,14 @@ function reload(e){
 
 export const deletetasklogic = (i, remove, listtasks) => {
   listtasks[i].todos.splice(remove, 1);
-  localStorage.setItem('liststore', JSON.stringify(listtasks));
-  window.location.reload();
 };
 
 export const checkboxfalse = (listtasks, i, remove) => {
   listtasks[i].todos[remove].status = false;
-  localStorage.setItem('liststore', JSON.stringify(listtasks));
 };
 
 export const checkboxtrue = (listtasks, i, remove) => {
   listtasks[i].todos[remove].status = true;
-  localStorage.setItem('liststore', JSON.stringify(listtasks));
 };
 
 export class Createlist1 {
@@ -66,13 +62,13 @@ export const createlist = (e) => {
  reload(e)
 };
 
-export function edittaskform(dom1, e=false) {
+export function edittaskform(e=false) {
   const listtasks = localstorage1();
   if (localStorage.getItem('selectedlist')) {
     let readradiovalue2;
     for (let i = 0; i < 3; i += 1) {
-      if (dom1.readRadios1edit[i].checked === true) {
-        readradiovalue2 = dom1.readRadios1edit[i].value;
+      if (readRadios1edit[i].checked === true) {
+        readradiovalue2 = readRadios1edit[i].value;
         break;
       }
     }
@@ -82,9 +78,9 @@ export function edittaskform(dom1, e=false) {
     for (let i = 0; i < listtasks.length; i += 1) {
       if (listtasks[i].list === selecteditem) {
         const remove = localStorage.getItem('selectedtask');
-        listtasks[i].todos[remove].task = dom1.taskedit.value;
-        listtasks[i].todos[remove].date = dom1.dateedit.value;
-        listtasks[i].todos[remove].description = dom1.descriptionedit.value;
+        listtasks[i].todos[remove].task = taskedit.value;
+        listtasks[i].todos[remove].date = dateedit.value;
+        listtasks[i].todos[remove].description = descriptionedit.value;
         listtasks[i].todos[remove].priority = readradiovalue2;
         localStorage.setItem('liststore', JSON.stringify(listtasks));
         break;
