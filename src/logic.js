@@ -20,8 +20,8 @@ export const localstorage1 = () => {
   return liststasks;
 };
 
-function reload(e){
- e.preventDefault();
+function reload(e) {
+  e.preventDefault();
   window.location.reload();
 }
 
@@ -52,17 +52,16 @@ export function Createtask1(date, task, description, readradiovalue1, status) {
   this.status = status;
 }
 
-
-
-export const createlist = (e) => {
+export const createlist = (value,e=false) => {
   const liststasks = localstorage1();
-  const list1 = new Createlist1(list.value);
+  const list1 = new Createlist1(value);
   liststasks.push(list1);
   localStorage.setItem('liststore', JSON.stringify(liststasks));
- reload(e)
+  if(e) 
+reload(e)
 };
 
-export function edittaskform(e=false) {
+export function edittaskform() {
   const listtasks = localstorage1();
   if (localStorage.getItem('selectedlist')) {
     let readradiovalue2;
@@ -88,10 +87,9 @@ export function edittaskform(e=false) {
     }
     // dom1.dom();
   }
- reload(e)
 }
 
-export const createtask = (e) => {
+export const createtask = () => {
   const listtasks = localstorage1();
   if (localStorage.getItem('selectedlist')) {
     let readradiovalue1;
@@ -114,8 +112,6 @@ export const createtask = (e) => {
         break;
       }
     }
-
- reload(e)
   }
 };
 
@@ -127,9 +123,37 @@ export const logic = (dom1) => {
     localStorage.setItem('liststore', JSON.stringify(liststasks));
   }
 
-  listform.addEventListener('submit', createlist);
-  formdisplay.addEventListener('submit', createtask);
-  editform.addEventListener('submit', (e) => { edittaskform(dom1, e),dom1.dom(); });
+  listform.addEventListener('submit', (e) => { createlist(list.value,e); });
+  formdisplay.addEventListener('submit', (e) => { createtask(date.value, task.value, description.value,
+      readradiovalue1, false,e); });
+  editform.addEventListener('submit', (e) => { edittaskform(); dom1.dom(); });
   formdisplay.reset();
   listform.reset();
 };
+
+ formdisplay.addEventListener('submit', (e) => { 
+    let readradiovalue2;  
+    if (localStorage.getItem('selectedlist')) {
+    for (let i = 0; i < 3; i += 1) {
+      if (readRadios1edit[i].checked === true) {
+        readradiovalue2 = readRadios1edit[i].value;
+        break;
+      }
+    }
+    }
+  createtask(date.value, task.value, description.value, readradiovalue2, false,e); 
+
+});
+
+
+// listform.addEventListener('submit', (e) => { createlist(list.value), reload(e); });
+// formdisplay.addEventListener('submit', (e) => { createtask(), reload(e); });
+// editform.addEventListener('submit', (e) => { edittaskform(dom1, e), dom1.dom(), reload(e); });
+
+//  listform.addEventListener('submit', (e) => { createlist(list.value,e); });
+//   formdisplay.addEventListener('submit', (e) => { createtask(date.value, task.value, description.value,
+//       readradiovalue1, false); reload(e); });
+//   editform.addEventListener('submit', (e) => { edittaskform(); dom1.dom(); reload(e); });
+//   formdisplay.reset();
+//   listform.reset();
+// };
