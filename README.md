@@ -38,6 +38,10 @@ If you want to repack the file
 
 - Go to the dist folder and open index.html
 
+If you want to test the code
+
+- After installing dependencies run `npm test` for running the tests in logic.test.js
+
 ## Live Link of the project
 
 [Live-List](https://cocky-kowalevski-7f7bdf.netlify.app/)
