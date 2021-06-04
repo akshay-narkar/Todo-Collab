@@ -98,7 +98,7 @@ export const createtask = (date, task, description, readradiovalue1) => {
 
 // called from index
 
-export const logic = (dom1) => {
+export const logic = () => {
   const liststasks = [];
   if (!localStorage.getItem('liststore')) {
     const listdefault = new Createlist1(listname.textContent);
